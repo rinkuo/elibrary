@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Your Cart | Gilos Market{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
+
+    {% if cart.items.all %}
+        <table class="w-full mb-6">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="p-2 text-left">Product</th>
+                    <th class="p-2 text-left">Quantity</th>
+                    <th class="p-2 text-left">Price</th>
+                    <th class="p-2 text-left">Total</th>
+                    <th class="p-2 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items.all %}
+                    <tr class="border-b">
+                        <td class="p-2">{{ item.product.name }}</td>
+                        <td class="p-2">{{ item.quantity }}</td>
+                        <td class="p-2">${{ item.product.price }}</td>
+                        <td class="p-2">${{ item.get_cost }}</td>
+                        <td class="p-2">
+                            <form action="{% url 'cart:cart_remove' item.product.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-500 hover:underline">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="flex justify-between items-center">
+            <p class="text-xl font-bold">Total: ${{ cart.get_total_cost }}</p>
+            <a href="{% url 'orders:order_create' %}" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p class="text-gray-600">Your cart is empty.</p>
+        <a href="{% url 'products:product_list' %}" class="text-primary hover:underline">Continue Shopping</a>
+    {% endif %}
+{% endblock %}

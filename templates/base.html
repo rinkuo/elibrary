@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gilos Market{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF0000;
+            --primary-dark: #CC0000;
+            --primary-light: #FF3333;
+        }
+        .bg-primary { background-color: var(--primary-color); }
+        .text-primary { color: var(--primary-color); }
+        .border-primary { border-color: var(--primary-color); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="bg-primary text-white">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="{% url 'products:product_list' %}" class="text-2xl font-bold">Gilos Market</a>
+                <div class="space-x-4">
+                    <a href="{% url 'products:product_list' %}" class="hover:text-primary-light">Products</a>
+                    <a href="{% url 'cart:cart_detail' %}" class="hover:text-primary-light">Cart</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'customers:profile' %}" class="hover:text-primary-light">Profile</a>
+                        <a href="{% url 'logout' %}" class="hover:text-primary-light">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="hover:text-primary-light">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-200 py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Gilos Market. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

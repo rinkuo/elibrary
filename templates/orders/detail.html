@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Order #{{ order.id }} | Gilos Market{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Order #{{ order.id }}</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4">Order Details</h2>
+        <p class="text-gray-600 mb-2">Date: {{ order.created|date:"F j, Y" }}</p>
+        <p class="text-gray-600 mb-2">Total: ${{ order.get_total_cost }}</p>
+        <p class="text-gray-600 mb-2">Status: {{ order.get_status_display }}</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">Order Items</h2>
+        <table class="w-full">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="p-2 text-left">Product</th>
+                    <th class="p-2 text-left">Price</th>
+                    <th class="p-2 text-left">Quantity</th>
+                    <th class="p-2 text-left">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                    <tr class="border-b">
+                        <td class="p-2">{{ item.product.name }}</td>
+                        <td class="p-2">${{ item.price }}</td>
+                        <td class="p-2">{{ item.quantity }}</td>
+                        <td class="p-2">${{ item.get_cost }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

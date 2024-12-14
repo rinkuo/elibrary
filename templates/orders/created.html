@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Order Placed | Gilos Market{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Order Placed Successfully</h1>
+
+    <p class="text-gray-600 mb-4">Thank you for your order. Your order number is: <strong>{{ order.id }}</strong></p>
+    <p class="text-gray-600 mb-4">We will process your order as soon as possible.</p>
+
+    <a href="{% url 'products:product_list' %}" class="text-primary hover:underline">Continue Shopping</a>
+{% endblock %}
